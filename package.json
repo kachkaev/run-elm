@@ -1,6 +1,6 @@
 {
   "name": "run-elm",
-  "version": "2.1.1",
+  "version": "0.0.0-develop",
   "description": "Run Elm code from the command line",
   "files": [
     "lib",
@@ -9,7 +9,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "bin": {
+  "x-bin": {
     "run-elm": "lib/index.js"
   },
   "scripts": {
@@ -18,11 +18,8 @@
     "pretest": "npm run build",
     "test": "jest",
     "build": "babel src --out-dir lib && cpx 'src/*.elm.template' lib",
+    "postinstall": "npm run build",
     "prepublish": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jfairbank/run-elm.git"
   },
   "keywords": [
     "elm",
