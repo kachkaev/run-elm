@@ -1,7 +1,7 @@
 {
-  "name": "run-elm",
-  "version": "2.2.0",
-  "description": "Run Elm code from the command line",
+  "name": "@kachkaev/run-elm",
+  "version": "2.3.0",
+  "description": "Temporary fork of run-elm",
   "files": [
     "lib",
     "README.md"
