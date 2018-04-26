@@ -62,7 +62,8 @@ export default async (userModuleFileName, {
     } catch (err) {
       throw new Error(`Provided --project-dir \`${projectDir}\` is not a directory.`);
     }
-    if (userModulePath.indexOf(`${resolvedProjectDir}/`) !== 0) {
+    if (userModulePath.indexOf(`${resolvedProjectDir}/`) !== 0
+    && userModulePath.indexOf(`${resolvedProjectDir}\\`) !== 0) {
       throw new Error(`File \`${userModulePath}\` must be located within --project-dir \`${projectDir}\``);
     }
 
