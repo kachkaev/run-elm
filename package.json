@@ -1,6 +1,6 @@
 {
   "name": "@kachkaev/run-elm",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Temporary fork of run-elm",
   "files": [
     "lib",
@@ -9,6 +9,7 @@
   "engines": {
     "node": ">=6.0.0"
   },
+  "main": "lib/index.js",
   "bin": {
     "run-elm": "lib/cli.js"
   },
