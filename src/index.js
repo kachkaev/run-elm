@@ -27,8 +27,8 @@ export default async (userModuleFileName, {
   const elmCompileStderr = path.join(resolvedProjectDir, `stderr-${moduleId}.txt`);
 
   try {
-    // ensure elm is installed
-    if (!sh.which('elm')) {
+    // ensure global elm is installed (unless pathToElmMake is given)
+    if (!pathToElmMake && !sh.which('elm')) {
       throw new Error('No elm global binary available. Please install with `npm install -g elm`.');
     }
 
