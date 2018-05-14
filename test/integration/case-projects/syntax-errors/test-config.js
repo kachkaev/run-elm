@@ -50,7 +50,7 @@ Detected errors in 1 module.
 `,
 }, {
   title: 'report=normal (explicit)',
-  functionArgs: ['Main.elm', { reportFormat: 'normal' }],
+  functionArgs: ['Main.elm', { report: 'normal' }],
   cliArgs: ['Main.elm', '--report=normal'],
   expectedExitCode: 1,
   expectedStdout: '',
@@ -68,7 +68,7 @@ Detected errors in 1 module.
 `,
 }, {
   title: 'report=json',
-  functionArgs: ['Main.elm', { reportFormat: 'json' }],
+  functionArgs: ['Main.elm', { report: 'json' }],
   cliArgs: ['Main.elm', '--report=json'],
   expectedExitCode: 1,
   expectedStdout: '',

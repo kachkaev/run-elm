@@ -25,7 +25,7 @@ import defaultOptions from './defaultOptions';
     .option(
       '--report [format]',
       'format of error and warning reports (e.g. --report=json)',
-      defaultOptions.reportFormat,
+      defaultOptions.report,
     )
     .option(
       '--path-to-elm-make [path]',
@@ -43,7 +43,7 @@ import defaultOptions from './defaultOptions';
     const result = await runElm(program.args[0], {
       outputName: program.outputName,
       projectDir: program.projectDir,
-      reportFormat: program.report,
+      report: program.report,
       pathToElmMake: program.pathToElmMake,
       argsToOutput: program.args.slice(1),
     });

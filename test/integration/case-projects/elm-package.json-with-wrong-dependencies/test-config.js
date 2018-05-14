@@ -15,7 +15,7 @@ published versions of this package.
 `,
 }, {
   title: 'report=json',
-  functionArgs: ['Main.elm', { reportFormat: 'json' }],
+  functionArgs: ['Main.elm', { report: 'json' }],
   cliArgs: ['Main.elm', '--report=json'],
   cleanElmStuff: true,
   expectedExitCode: 1,

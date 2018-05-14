@@ -18,7 +18,7 @@ You can also check out the following example to see what it should look like:
 `,
 }, {
   title: 'report=json',
-  functionArgs: ['Main.elm', { reportFormat: 'json' }],
+  functionArgs: ['Main.elm', { report: 'json' }],
   cliArgs: ['Main.elm', '--report=json'],
   expectedExitCode: 1,
   expectedStdout: '',

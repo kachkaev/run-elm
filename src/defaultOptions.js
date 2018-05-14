@@ -1,4 +1,4 @@
 export default {
   outputName: 'output',
-  reportFormat: 'normal',
+  report: 'normal',
 };
