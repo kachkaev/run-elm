@@ -5,22 +5,25 @@ clone_depth: 1
 shallow_clone: true
 matrix:
   fast_finish: true
+
 environment:
   matrix:
     - nodejs_version: 6
     - nodejs_version: 8
     - nodejs_version: 9
     - nodejs_version: 10
-init:
-  - git config --global core.autocrlf true
+
+platform:
+  - x86
+  - x64
+
 install:
-  - ps: Install-Product node $env:nodejs_version x64
+  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:Platform
+  - node --version
+  - yarn --version
   - npm install --global elm
   - set CI=true
   - yarn
-cache:
-  - '%LOCALAPPDATA%/Yarn'
+
 test_script:
-  - node --version
-  - yarn --version
-  - yarn run test
+  - yarn test
