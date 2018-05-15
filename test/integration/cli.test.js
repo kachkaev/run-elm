@@ -17,8 +17,8 @@ describe('run-elm cli', () => {
     cliArgs,
     cleanElmStuff,
     expectedExitCode,
-    expectedStdout,
-    expectedStderr,
+    expectedStdout: rawExpectedStdout = '',
+    expectedStderr: rawExpectedStderr = '',
     title,
   }) => {
     test(`correctly works for case project \`${projectName}\`${title ? ` → ${title}` : ''}`, async () => {
@@ -37,14 +37,26 @@ describe('run-elm cli', () => {
       }
       expect(result.code || 0).toEqual(expectedExitCode);
 
+      const expectedStdout = process.platform === 'win32'
+        ? rawExpectedStdout.replace(/\n/g, '\r\n')
+        : rawExpectedStdout;
+
+      const expectedStderr = process.platform === 'win32'
+        ? rawExpectedStderr.replace(/\n/g, '\r\n')
+        : rawExpectedStderr;
+
       // when long output is expected, it is cheaper to check its length first
       if (typeof expectedStdout === 'string') {
-        expect(result.stdout.length).toEqual(expectedStdout.length);
+        if (expectedStdout.length > 10000) {
+          expect(result.stdout.length).toEqual(expectedStdout.length);
+        }
         expect(result.stdout).toEqual(expectedStdout);
       }
 
       if (typeof expectedStderr === 'string') {
-        expect(result.stderr.length).toEqual(expectedStderr.length);
+        if (expectedStdout.length > 10000) {
+          expect(result.stderr.length).toEqual(expectedStderr.length);
+        }
         expect(result.stderr).toEqual(expectedStderr);
       }
     }, 30000);
