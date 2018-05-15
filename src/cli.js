@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import os from 'os';
 import path from 'path';
 import runElm from './index';
 import defaultOptions from './defaultOptions';
@@ -49,7 +48,7 @@ import defaultOptions from './defaultOptions';
       argsToOutput: program.args.slice(1),
     });
     if (debugLog.length) {
-      console.log(debugLog.join(os.EOL));
+      console.log(debugLog.join('\n'));
     }
     console.log(output);
   } catch (e) {
