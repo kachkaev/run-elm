@@ -46,6 +46,10 @@ describe('run-elm function', () => {
 
       expect(console.log).toBe(standardConsoleLog);
 
+      if (projectName === 'subdirectory-with-dependencies') {
+        console.log('OUT', result);
+      }
+
       if (expectedExitCode === 0) {
         expect(typeof result.output).toBe('string');
         expect(result.debugLog).toBeInstanceOf(Array);
