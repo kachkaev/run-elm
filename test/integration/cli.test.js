@@ -38,16 +38,12 @@ describe('run-elm cli', () => {
 
       // when long output is expected, it is cheaper to check its length first
       if (typeof expectedStdout === 'string') {
-        if (expectedStdout.length > 10000) {
-          expect(result.stdout.length).toEqual(expectedStdout.length);
-        }
+        expect(result.stdout.length).toEqual(expectedStdout.length);
         expect(result.stdout).toEqual(expectedStdout);
       }
 
       if (typeof expectedStderr === 'string') {
-        if (expectedStderr.length > 10000) {
-          expect(result.stderr.length).toEqual(expectedStderr.length);
-        }
+        expect(result.stderr.length).toEqual(expectedStderr.length);
         expect(result.stderr).toEqual(expectedStderr);
       }
     }, 30000);
