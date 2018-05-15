@@ -15,7 +15,7 @@
     "run-elm": "lib/cli.js"
   },
   "scripts": {
-    "test:clean": "cd test/integration && git clean -d -f -X",
+    "clean:test": "git clean -d -f -X test/integration",
     "lint": "eslint src test --ignore-pattern elm-stuff",
     "prebuild": "rimraf lib",
     "build": "babel src --out-dir lib",
