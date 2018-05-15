@@ -19,7 +19,7 @@
     "lint": "eslint src test --ignore-pattern elm-stuff",
     "prebuild": "rimraf lib",
     "build": "babel src --out-dir lib",
-    "postbuild": "cpx 'src/*.elm.template' lib",
+    "postbuild": "cpx \"src/*.elm.template\" lib",
     "pretest": "npm run build",
     "test": "jest --runInBand",
     "prepublish": "npm run build"
