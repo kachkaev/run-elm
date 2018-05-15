@@ -17,8 +17,8 @@ describe('run-elm cli', () => {
     cliArgs,
     cleanElmStuff,
     expectedExitCode,
-    expectedStdout: rawExpectedStdout = '',
-    expectedStderr: rawExpectedStderr = '',
+    expectedStdout: rawExpectedStdout,
+    expectedStderr: rawExpectedStderr,
     title,
   }) => {
     test(`correctly works for case project \`${projectName}\`${title ? ` → ${title}` : ''}`, async () => {
@@ -37,11 +37,11 @@ describe('run-elm cli', () => {
       }
       expect(result.code || 0).toEqual(expectedExitCode);
 
-      const expectedStdout = process.platform === 'win32'
+      const expectedStdout = typeof rawExpectedStdout === 'string' && process.platform === 'win32'
         ? rawExpectedStdout.replace(/\n/g, '\r\n')
         : rawExpectedStdout;
 
-      const expectedStderr = process.platform === 'win32'
+      const expectedStderr = typeof rawExpectedStderr === 'string' && process.platform === 'win32'
         ? rawExpectedStderr.replace(/\n/g, '\r\n')
         : rawExpectedStderr;
 
