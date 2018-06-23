@@ -10,7 +10,6 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "main": "lib/index.js",
   "bin": {
     "run-elm": "lib/cli.js"
   },

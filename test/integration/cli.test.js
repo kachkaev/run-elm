@@ -46,7 +46,7 @@ describe('run-elm cli', () => {
       }
 
       if (typeof expectedStderr === 'string') {
-        if (expectedStdout.length > 10000) {
+        if (expectedStderr.length > 10000) {
           expect(result.stderr.length).toEqual(expectedStderr.length);
         }
         expect(result.stderr).toEqual(expectedStderr);
