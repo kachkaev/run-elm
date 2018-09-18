@@ -1,85 +1,43 @@
 const path = require('path');
 
-module.exports = [{
-  title: 'report=normal (implicit, cold start)',
-  functionArgs: ['Main.elm'],
-  cliArgs: ['Main.elm'],
-  cleanElmStuff: true,
-  expectedStdout: '',
-  expectedExitCode: 1,
-  // do not check stderr as it is unstable (order of downloads changes)
-  // approximate stdout:
+const normalError = `Compilation failed
+-- PARSE ERROR ------------------------------------------------------ .${path.sep}Main.elm
 
-/*
+Something went wrong while parsing hello's type annotation.
 
-Error: Compilation failed
-Starting downloads...
-
-  ● elm-lang/html 2.0.0
-  ● elm-lang/virtual-dom 2.0.4
-
-● elm-lang/core 5.1.1
-Packages configured successfully!
--- SYNTAX PROBLEM ------------------------------------------------- ././Main.elm
-
-It looks like the keyword \`module\` is being used as a variable.
-
+3| hello: world
 4| I am a broken Elm module
-                           ^
-Rename it to something else.
+   ^
+I was expecting:
 
-Detected errors in 1 module.
+  - a declaration, like \`x = 5\` or \`type alias Model = { ... }\`
+  - the rest of hello's type annotation. Maybe you forgot some code? Or you need
+    more indentation?`;
 
-*/
-
-}, {
-  title: 'report=normal (implicit)',
-  functionArgs: ['Main.elm'],
-  cliArgs: ['Main.elm'],
-  expectedExitCode: 1,
-  expectedStdout: '',
-  expectedStderr: `Error: Compilation failed
--- SYNTAX PROBLEM ------------------------------------------------- .${path.sep}.${path.sep}Main.elm
-
-It looks like the keyword \`module\` is being used as a variable.
-
-4| I am a broken Elm module
-                           ^
-Rename it to something else.
-
-Detected errors in 1 module.
-
-`,
-}, {
-  title: 'report=normal (explicit)',
-  functionArgs: ['Main.elm', { report: 'normal' }],
-  cliArgs: ['Main.elm', '--report=normal'],
-  expectedExitCode: 1,
-  expectedStdout: '',
-  expectedStderr: `Error: Compilation failed
--- SYNTAX PROBLEM ------------------------------------------------- .${path.sep}.${path.sep}Main.elm
-
-It looks like the keyword \`module\` is being used as a variable.
-
-4| I am a broken Elm module
-                           ^
-Rename it to something else.
-
-Detected errors in 1 module.
-
-`,
-}, {
-  title: 'report=json',
-  functionArgs: ['Main.elm', { report: 'json' }],
-  cliArgs: ['Main.elm', '--report=json'],
-  expectedExitCode: 1,
-  expectedStdout: '',
-  expectedStderr: process.platform === 'win32'
-    ? `Error: Compilation failed
-[{"subregion":null,"details":"Rename it to something else.","region":{"end":{"column":25,"line":4},"start":{"column":25,"line":4}},"type":"error","file":".\\\\.\\\\Main.elm","tag":"SYNTAX PROBLEM","overview":"It looks like the keyword \`module\` is being used as a variable."}]
-
-` : `Error: Compilation failed
-[{"tag":"SYNTAX PROBLEM","overview":"It looks like the keyword \`module\` is being used as a variable.","subregion":null,"details":"Rename it to something else.","region":{"start":{"line":4,"column":25},"end":{"line":4,"column":25}},"type":"error","file":"././Main.elm"}]
-
-`,
-}];
+module.exports = [
+  {
+    title: 'report=normal (implicit)',
+    functionArgs: ['Main.elm'],
+    cliArgs: ['Main.elm'],
+    expectedExitCode: 1,
+    expectedOutput: '',
+    expectedError: normalError
+  },
+  {
+    title: 'report=normal (explicit)',
+    functionArgs: ['Main.elm', { report: 'normal' }],
+    cliArgs: ['Main.elm', '--report=normal'],
+    expectedExitCode: 1,
+    expectedOutput: '',
+    expectedError: normalError
+  },
+  {
+    title: 'report=json',
+    functionArgs: ['Main.elm', { report: 'json' }],
+    cliArgs: ['Main.elm', '--report=json'],
+    expectedExitCode: 1,
+    expectedOutput: '',
+    expectedError: `Compilation failed
+{"type":"compile-errors","errors":[{"path":".${path.sep === '\\' ? '\\\\' : '/'}Main.elm","name":"Main","problems":[{"title":"PARSE ERROR","region":{"start":{"line":4,"column":1},"end":{"line":4,"column":1}},"message":["Something went wrong while parsing hello's type annotation.\\n\\n3| hello: world\\n4| I am a broken Elm module\\n   ",{"bold":false,"underline":false,"color":"red","string":"^"},"\\nI was expecting:\\n\\n  - a declaration, like \`x = 5\` or \`type alias Model = { ... }\`\\n  - the rest of hello's type annotation. Maybe you forgot some code? Or you need\\n    more indentation?"]}]}]}`
+  }
+];
