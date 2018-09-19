@@ -110,8 +110,7 @@ export default async (userModuleFileName, {
       report: report === 'normal' ? undefined : report
     };
 
-    const mainModuleJsCode = (await compileToString([mainModuleFilename], compileOptions))
-      .toString();
+    const jsCode = (await compileToString([mainModuleFilename], compileOptions)).toString();
 
     // run compiled elm file
     const result = {
@@ -124,6 +123,8 @@ export default async (userModuleFileName, {
 
     // Disable "Compiled in DEV mode" warning in stdout
     console.warn = noop;
+    const patchedJsCode = jsCode
+      .replace("return _Debug_internalColor(ansi, '<internals>');", 'return _Debug_toAnsiString(ansi, value.a);');
 
     await new Promise((resolve) => {
       // Evaluate mainModuleJsCode by passing evalContext to it as 'this'.
@@ -131,7 +132,7 @@ export default async (userModuleFileName, {
       const evalContext = {};
 
       // eslint-disable-next-line no-eval,func-names
-      (function () { return eval(mainModuleJsCode); }).call(evalContext);
+      (function () { return eval(patchedJsCode); }).call(evalContext);
       const worker = evalContext.Elm[mainModule];
       const app = needArgs ? worker.init({ flags: argsToOutput }) : worker.init();
       app.ports.sendOutput.subscribe((output) => {
