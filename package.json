@@ -1,6 +1,6 @@
 {
   "name": "@kachkaev/run-elm",
-  "version": "3.0.0-litvis-patch.1",
+  "version": "3.0.0-litvis-patch.2",
   "description": "Run Elm code from the command line",
   "files": [
     "lib",
