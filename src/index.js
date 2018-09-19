@@ -124,7 +124,8 @@ export default async (userModuleFileName, {
     // Disable "Compiled in DEV mode" warning in stdout
     console.warn = noop;
     const patchedJsCode = jsCode
-      .replace("return _Debug_internalColor(ansi, '<internals>');", 'return _Debug_toAnsiString(ansi, value.a);');
+      .replace("return _Debug_internalColor(ansi, '<internals>');", 'return _Debug_toAnsiString(ansi, value.a);')
+      .replace("if (typeof value === 'object' && '$' in value)", "if (value === null) { return 'null'; }\n\n  if (typeof value === 'object' && '$$' in value)");
 
     await new Promise((resolve) => {
       // Evaluate mainModuleJsCode by passing evalContext to it as 'this'.
