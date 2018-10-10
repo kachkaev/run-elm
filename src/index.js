@@ -125,16 +125,13 @@ export default async (userModuleFileName, {
     console.warn = noop;
     const patchedJsCode = jsCode
       .replace("return _Debug_internalColor(ansi, '<internals>');", 'return _Debug_toAnsiString(ansi, value.a);')
-      .replace("if (typeof value === 'object' && '$' in value)", "if (value === null) { return 'null'; }\n\n  if (typeof value === 'object' && '$$' in value)");
+      .replace("if (typeof value === 'object' && '$' in value)", "if (value === null) { return 'null'; }\n\n  if (typeof value === 'object' && '$$' in value)")
+      .replace(';}(this));', ';}(module.exports));');
+
+    await writeFile(`${mainModuleFilename}.js`, patchedJsCode, 'utf8');
 
     await new Promise((resolve) => {
-      // Evaluate mainModuleJsCode by passing evalContext to it as 'this'.
-      // Without this trick, tests fail as 'this' is undefined.
-      const evalContext = {};
-
-      // eslint-disable-next-line no-eval,func-names
-      (function () { return eval(patchedJsCode); }).call(evalContext);
-      const worker = evalContext.Elm[mainModule];
+      const worker = require(`${mainModuleFilename}.js`).Elm[mainModule];
       const app = needArgs ? worker.init({ flags: argsToOutput }) : worker.init();
       app.ports.sendOutput.subscribe((output) => {
         result.output = output;
@@ -175,5 +172,6 @@ export default async (userModuleFileName, {
     console.log = originalConsoleLog;
     console.warn = originalConsoleWarn;
     await unlink(mainModuleFilename).catch(noop);
+    await unlink(`${mainModuleFilename}.js`).catch(noop);
   }
 };
